@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Integrate with TFS
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="A summary."/>
+    <meta name="author" content="Cameron Taggart"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="./content/style.css" />
+    <script type="text/javascript" src="./content/tips.js"></script>
+    <link rel="icon" href="http://ctaggart.github.io/SourceLink/SourceLink128.jpg">
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://github.com/ctaggart/SourceLink">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="./index.html">SourceLink</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1><a name="Integrate-with-TFS" class="anchor" href="#Integrate-with-TFS">Integrate with TFS</a></h1>
+
+<p>SourceLink has been used to source index Team Foundation Server (TFS) code in an on-premise TFS Git repository as well as <a href="http://www.visualstudio.com/">Visual Studio Online</a> (VSO). TFS 2013 <a href="http://stackoverflow.com/questions/24663813/is-source-indexing-for-git-builds-possible-in-tfs-2013">does not yet support</a> source indexing TFS Git code. SourceLink provides a solution for doing so. TFS Build does support source indexing for TFVC, but it requires tf.exe to be run each time a source file is needed. SourceLink uses <code>https</code> links for source indexing to obtain the source. This is more secure, faster, and easier to support than having to run an executable.</p>
+
+<p>TFS support builds on top of the FAKE support. <code>SoureLink.Fake</code> ships with a TFS build templates <a href="https://github.com/ctaggart/SourceLink/blob/master/Fake/TfsGit.xaml">TfsGit.xaml</a> and <a href="https://github.com/ctaggart/SourceLink/blob/master/Fake/VsoGit.xaml">VsoGit.xaml</a>. They simply delegate the work to FAKE, allowing you to <a href="http://blog.ctaggart.com/2014/01/code-your-tfs-builds-in-f-instead-of.html">code your TFS builds using FAKE instead of XAML</a>. <code>SourceLink.Tfs</code> provides easy access to the entire TFS API from your FAKE build scripts. F# Interactive can be used to connect to TFS and try things out.</p>
+
+<h3><a name="Examples-that-show-TODO" class="anchor" href="#Examples-that-show-TODO">Examples that show (TODO)</a></h3>
+
+<ul>
+<li>set the build number</li>
+<li>add a custom summary section</li>
+<li>integrate MSBuild logging</li>
+</ul>
+
+<h3><a name="Source-URLs" class="anchor" href="#Source-URLs">Source URLs</a></h3>
+
+<p>The URL to source index with can be derived from the download links in the web UI.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">gitRaw</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">sprintf</span> <span class="s">&quot;</span><span class="s">%</span><span class="s">s</span><span class="s">/</span><span class="s">_api</span><span class="s">/</span><span class="s">_versioncontrol</span><span class="s">/</span><span class="s">itemContent</span><span class="s">?</span><span class="s">repositoryId</span><span class="s">=</span><span class="s">%</span><span class="s">s</span><span class="s">&amp;</span><span class="s">path</span><span class="s">=</span><span class="s">/</span><span class="s">%</span><span class="s">%</span><span class="s">var2</span><span class="s">%</span><span class="s">%</span><span class="s">&amp;</span><span class="s">version</span><span class="s">=</span><span class="s">GC</span><span class="s">{</span><span class="s">0</span><span class="s">}</span><span class="s">&amp;</span><span class="s">contentOnly</span><span class="s">=</span><span class="s">false</span><span class="s">&amp;</span><span class="s">__v</span><span class="s">=</span><span class="s">5</span><span class="s">&quot;</span> <span class="i">repositoryId</span><span class="s">&quot;</span><span class="s"> </span><span class="s">tfsTeamProject</span><span class="s"> </span><span class="s">repositoryId</span></pre>
+</td>
+</tr>
+</table>
+
+<h3><a name="Known-Issues" class="anchor" href="#Known-Issues">Known Issues</a></h3>
+
+<ul>
+<li><p><a href="https://github.com/ctaggart/SourceLink/issues/44">#44</a> find the TFS MsBuildLogger InformationNodeId</p>
+<p>Only important if you want integrated MSBuild logging to look perfect.</p></li>
+</ul>
+
+<div class="tip" id="fs1">val gitRaw : (string -&gt; string)<br /><br />Full name: tfs.gitRaw</div>
+<div class="tip" id="fs2">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.sprintf</div>
+
+        </div>
+        <div class="span3">
+          <img src="http://ctaggart.github.io/SourceLink/SourceLink128.jpg" alt="F# Project" style="width:150px;margin:10px" />
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">SourceLink</li>
+            <li><a href="http://www.nuget.org/packages/SourceLink.Fake"><img src="http://img.shields.io/nuget/v/SourceLink.Fake.svg?style=flat" /></a></li>
+            <li><a href="./index.html">Home page</a></li>
+            <li><a href="./release-notes.html">Release Notes</a></li>
+            
+            <li><a href="http://github.com/ctaggart/SourceLink">Source Code</a></li>
+            <li><a href="http://github.com/ctaggart/SourceLink/issues">Report an Issue</a></li>
+            <li><a href="http://blog.ctaggart.com/search/label/SourceLink">Blog Posts</a></li>
+
+            <li class="nav-header">Documentation</li>
+              <li><a href="./how-it-works.html">how it works</a></li>
+            <li><a href="./visualstudio.html">enable Visual Studio</a></li>
+            <li><a href="./fake.html">with FAKE</a></li>
+            <li><a href="./tfs.html">with TFS</a></li>
+            <li><a href="./github.html">with GitHub</a></li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/ctaggart/SourceLink"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+</html>

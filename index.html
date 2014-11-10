@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>index</title>
+    <title>SourceLink: Source Code On Demand
+</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="A summary."/>
     <meta name="author" content="Cameron Taggart"/>
@@ -14,10 +15,7 @@
 
     <link type="text/css" rel="stylesheet" href="./content/style.css" />
     <script type="text/javascript" src="./content/tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="icon" href="http://ctaggart.github.io/SourceLink/SourceLink128.jpg">
   </head>
   <body>
     <div class="container">
@@ -31,60 +29,87 @@
       <div class="row">
         <div class="span9" id="main">
           
-<p>SourceLink is a .NET library that automates <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff556898.aspx">source indexing</a>. It enables the source control management system to be the <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms680641.aspx">source server</a> by indexing the pdb files with https links to the SCM. Access to the source code is controlled by the SCM.</p>
+<h1><a name="SourceLink-Source-Code-On-Demand" class="anchor" href="#SourceLink-Source-Code-On-Demand">SourceLink: Source Code On Demand</a></h1>
 
-<p>In April of 2011, Buck Hodges <a href="http://blogs.msdn.com/b/buckh/archive/2011/04/11/making-debugging-easier-source-indexing-and-symbol-server.aspx">stated</a> that "we are starting to have more and more tools that need access to the symbol file information and the original source code that was used for compilation". Visual Studio Debugging, Remote Debugger, IntelliTrace, Visual Studio Profiler, and WinDBG all use <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff558791.aspx">srcsrv.dll</a> to obtain the source. It "supports HTTPS sites protected by smartcards, certificates, and regular logins and passwords."</p>
+<p>SourceLink allows you to download on demand the exact version of the source files that were used to build the library or application when debugging from Visual Studio or another Windows debugger. The debuggers use <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff558791.aspx">srcsrv.dll</a> to retrieve the source code. "Because the source code for a module can change between versions and over the course of years, it is important to look at the source code as it existed when the version of the module in question was built." SourceLink enables the source control management (SCM) system to be the <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms680641.aspx">source server</a> by indexing the <code>pdb</code> files with <code>https</code> links to the SCM. Access to the source code is controlled by the SCM.</p>
 
-<h3><a name="Better-than-Traditional-TFS-Source-Indexing" class="anchor" href="#Better-than-Traditional-TFS-Source-Indexing">Better than Traditional TFS Source Indexing</a></h3>
+<h3><a name="Typical-Usage" class="anchor" href="#Typical-Usage">Typical Usage</a></h3>
 
-<p>SourceLink can be used to source index TFS Git code and TFS TFVC code. TFS 2013 <a href="http://msdn.microsoft.com/en-us/library/vstudio/ms181368.aspx#tfvc_or_git_details">does not yet support source indexing TFS Git code</a>. SourceLink provides a solution for doing so. Traditional TFS TFVC source indexing requires tf.exe to be run each time a source file is needed. Using web links for source indexing is better than having to run an executable to obtain the source.</p>
+<p>The <a href="https://www.nuget.org/packages/SourceLink.Fake">SourceLink.Fake</a> NuGet package is typically used with a <a href="http://fsharp.github.io/FAKE/">FAKE</a> target named <code>SourceLink</code>:</p>
 
-<h3><a name="Great-for-NET-Open-Source" class="anchor" href="#Great-for-NET-Open-Source">Great for .NET Open Source</a></h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="i">Target</span> <span class="s">&quot;</span><span class="s">SourceLink</span><span class="s">&quot;</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span>
+    <span class="k">let</span> <span class="i">rawUrl</span> <span class="o">=</span> <span class="s">&quot;</span><span class="s">https</span><span class="s">:</span><span class="s">/</span><span class="s">/</span><span class="s">raw</span><span class="s">.</span><span class="s">githubusercontent</span><span class="s">.</span><span class="s">com</span><span class="s">/</span><span class="s">octokit</span><span class="s">/</span><span class="s">octokit</span><span class="s">.</span><span class="s">net</span><span class="s">&quot;</span>
+    <span class="k">use</span> <span class="i">repo</span> <span class="o">=</span> <span class="k">new</span> <span class="i">GitRepo</span>(<span class="k">__SOURCE_DIRECTORY__</span>)
+    [   <span class="s">&quot;</span><span class="s">Octokit</span><span class="s">/</span><span class="s">Octokit</span><span class="s">.</span><span class="s">csproj</span><span class="s">&quot;</span>
+        <span class="s">&quot;</span><span class="s">Octokit</span><span class="s">/</span><span class="s">Octokit</span><span class="s">-</span><span class="s">netcore45</span><span class="s">.</span><span class="s">csproj</span><span class="s">&quot;</span>
+        <span class="s">&quot;</span><span class="s">Octokit</span><span class="s">/</span><span class="s">Octokit</span><span class="s">-</span><span class="s">Portable</span><span class="s">.</span><span class="s">csproj</span><span class="s">&quot;</span>
+        <span class="s">&quot;</span><span class="s">Octokit</span><span class="s">.</span><span class="s">Reactive</span><span class="s">/</span><span class="s">Octokit</span><span class="s">.</span><span class="s">Reactive</span><span class="s">.</span><span class="s">csproj</span><span class="s">&quot;</span> ]
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">iter</span> (<span class="k">fun</span> <span class="i">pf</span> <span class="k">-&gt;</span>
+        <span class="k">let</span> <span class="i">proj</span> <span class="o">=</span> <span class="i">VsProj</span><span class="o">.</span><span class="i">LoadRelease</span> <span class="i">pf</span>
+        <span class="i">logfn</span> <span class="s">&quot;</span><span class="s">source</span><span class="s"> </span><span class="s">linking</span><span class="s"> </span><span class="s">%</span><span class="s">s</span><span class="s">&quot;</span> <span class="i">proj</span><span class="o">.</span><span class="i">OutputFilePdb</span>
+        <span class="k">let</span> <span class="i">files</span> <span class="o">=</span> (<span class="i">proj</span><span class="o">.</span><span class="i">Compiles</span> <span class="o">--</span> <span class="s">&quot;</span><span class="s">SolutionInfo</span><span class="s">.</span><span class="s">cs</span><span class="s">&quot;</span>)<span class="o">.</span><span class="i">SetBaseDirectory</span> <span class="k">__SOURCE_DIRECTORY__</span>
+        <span class="i">repo</span><span class="o">.</span><span class="i">VerifyChecksums</span> <span class="i">files</span>
+        <span class="i">proj</span><span class="o">.</span><span class="i">VerifyPdbChecksums</span> <span class="i">files</span>
+        <span class="i">proj</span><span class="o">.</span><span class="i">CreateSrcSrv</span> <span class="s">&quot;</span><span class="s">%</span><span class="s">s</span><span class="s">/</span><span class="s">{</span><span class="s">0</span><span class="s">}</span><span class="s">/</span><span class="s">%</span><span class="s">var2</span><span class="s">%</span><span class="s">&quot;</span> <span class="i">rawUrl</span> <span class="i">repo</span><span class="o">.</span><span class="i">Revision</span> (<span class="i">repo</span><span class="o">.</span><span class="i">Paths</span> <span class="i">files</span>)
+        <span class="i">Pdbstr</span><span class="o">.</span><span class="i">exec</span> <span class="i">proj</span><span class="o">.</span><span class="i">OutputFilePdb</span> <span class="i">proj</span><span class="o">.</span><span class="i">OutputFilePdbSrcSrv</span>
+    )
+)</pre>
+</td>
+</tr>
+</table>
 
-<p>SourceLink is perfect for open source .NET projects. If you source index your pdb files using SourceLink and ship them in the NuGet packages, users of your project will be able to download the exact source on demand while debugging. SourceLink works with GitHub, Bitbucket, Google Project Hosting, and CodePlex. Git on CodePlex is the only option known not to work yet, so <a href="https://codeplex.codeplex.com/workitem/26806">vote here</a>.</p>
-
-<h3><a name="How-it-Works" class="anchor" href="#How-it-Works">How it Works</a></h3>
-
-<p>SourceLink will create a text file next to the .pdb with an extension of .pdb.srcsrv and then run pdbstr.exe to do the source indexing. pdbstr.exe ships with TFS and <a href="http://msdn.microsoft.com/en-us/windows/hardware/hh852365.aspx">Debugging Tools for Windows</a>.</p>
-
-<h3><a name="How-to-Use" class="anchor" href="#How-to-Use">How to Use</a></h3>
-
-<p><a href="http://www.nuget.org/packages/SourceLink.Fake">SourceLink.Fake</a> is a tools only NuGet package. It is an add-on for <a href="http://fsharp.github.io/FAKE/">FAKE - F# Make</a>. Examples:
-<em> blog post <a href="http://blog.ctaggart.com/2014/01/source-link-to-codeplex.html">Source Link to CodePlex</a>
-</em> SourceLink <a href="https://github.com/ctaggart/SourceLink/blob/master/build.fsx">build.fsx</a>
-* FSharp.Data <a href="https://github.com/fsharp/FSharp.Data/blob/master/build.fsx">build.fsx</a></p>
-
-<h3><a name="Blog" class="anchor" href="#Blog">Blog</a></h3>
-
-<p>Please see my blog posts tagged with SourceLink for more details.
-<a href="http://blog.ctaggart.com/search/label/SourceLink">http://blog.ctaggart.com/search/label/SourceLink</a></p>
-
-<h3><a name="Run-FAKE-from-TFS-or-Visual-Studio-Online" class="anchor" href="#Run-FAKE-from-TFS-or-Visual-Studio-Online">Run FAKE from TFS or Visual Studio Online</a></h3>
-
-<p>FAKE builds can be integrated with several build servers. SourceLink.Fake enables integration with TFS and <a href="http://www.visualstudio.com/">Visual Studio Online</a>. You can <a href="http://blog.ctaggart.com/2014/01/code-your-tfs-builds-in-f-instead-of.html">code your TFS builds in F# instead of XAML</a>. A helper library is provided that gives easy access to the entire TFS API from F# and F# Interactive.</p>
-
-<h3><a name="Issues" class="anchor" href="#Issues">Issues</a></h3>
+<p>SourceLink is being used with:</p>
 
 <ul>
-<li>Use stackoverflow with a <a href="http://stackoverflow.com/questions/tagged/sourcelink">sourcelink</a> tag for questions.</li>
-<li>Bugs can be logged in the GitHub <a href="https://github.com/ctaggart/SourceLink/issues">issue tracker</a>.</li>
+<li>.NET Open Source on GitHub</li>
+<li>TFS 2013 On-Premise</li>
+<li>GitHub private respositories soon I hope <a href="https://github.com/ctaggart/SourceLink/issues/48">#48</a></li>
 </ul>
 
+<div class="tip" id="fs1">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs2">val iter : action:(&#39;T -&gt; unit) -&gt; source:seq&lt;&#39;T&gt; -&gt; unit<br /><br />Full name: Microsoft.FSharp.Collections.Seq.iter</div>
 
         </div>
         <div class="span3">
           <img src="http://ctaggart.github.io/SourceLink/SourceLink128.jpg" alt="F# Project" style="width:150px;margin:10px" />
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">SourceLink</li>
+            <li><a href="http://www.nuget.org/packages/SourceLink.Fake"><img src="http://img.shields.io/nuget/v/SourceLink.Fake.svg?style=flat" /></a></li>
             <li><a href="./index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://github.com/ctaggart/SourceLink">Source Code on GitHub</a></li>
-            
-            <li><a href="http://github.com/ctaggart/SourceLink/issues">Report an issue</a></li>
-            
             <li><a href="./release-notes.html">Release Notes</a></li>
+            
+            <li><a href="http://github.com/ctaggart/SourceLink">Source Code</a></li>
+            <li><a href="http://github.com/ctaggart/SourceLink/issues">Report an Issue</a></li>
+            <li><a href="http://blog.ctaggart.com/search/label/SourceLink">Blog Posts</a></li>
 
-               
+            <li class="nav-header">Documentation</li>
+              <li><a href="./how-it-works.html">how it works</a></li>
+            <li><a href="./visualstudio.html">enable Visual Studio</a></li>
+            <li><a href="./fake.html">with FAKE</a></li>
+            <li><a href="./tfs.html">with TFS</a></li>
+            <li><a href="./github.html">with GitHub</a></li>
+            
           </ul>
         </div>
       </div>
