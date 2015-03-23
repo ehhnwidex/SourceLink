@@ -13,8 +13,8 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="./content/style.css" />
-    <script type="text/javascript" src="./content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="file://C:\Projects\SourceLink1\docs\tools\../output/content/style.css" />
+    <script type="text/javascript" src="file://C:\Projects\SourceLink1\docs\tools\../output/content/tips.js"></script>
     <link rel="icon" href="http://ctaggart.github.io/SourceLink/SourceLink128.jpg">
   </head>
   <body>
@@ -23,7 +23,7 @@
         <ul class="nav nav-pills pull-right">
           <li><a href="http://github.com/ctaggart/SourceLink">github page</a></li>
         </ul>
-        <h3 class="muted"><a href="./index.html">SourceLink</a></h3>
+        <h3 class="muted"><a href="file://C:\Projects\SourceLink1\docs\tools\../output/index.html">SourceLink</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -31,16 +31,60 @@
           
 <h1><a name="Integrate-with-FAKE" class="anchor" href="#Integrate-with-FAKE">Integrate with FAKE</a></h1>
 
-<p><a href="http://www.nuget.org/packages/SourceLink.Fake">SourceLink.Fake</a> is a tools only NuGet package. It is an add-on for <a href="http://fsharp.github.io/FAKE/">FAKE - F# Make</a>.</p>
+<p><a href="http://www.nuget.org/packages/SourceLink.Fake">SourceLink.Fake</a> is a tools only NuGet package that is an add-on for <a href="http://fsharp.github.io/FAKE/">FAKE - F# Make</a>. It is used by a lot of projects using FAKE and is includes as part of <a href="http://fsprojects.github.io/ProjectScaffold/">ProjectScaffold</a>.</p>
 
-<p>TODO docs:</p>
+<h3><a name="Typical-Usage-with-FAKE-Builds" class="anchor" href="#Typical-Usage-with-FAKE-Builds">Typical Usage with FAKE Builds</a></h3>
 
-<ul>
-<li>build.cmd &amp; build.sh with NuGet</li>
-<li>build.cmd &amp; build.sh with Paket</li>
-</ul>
+<p>The <a href="https://www.nuget.org/packages/SourceLink.Fake">SourceLink.Fake</a> NuGet package is typically used with a <a href="http://fsharp.github.io/FAKE/">FAKE</a> target named <code>SourceLink</code>:</p>
 
-<p>Examples:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="i">Target</span> <span class="s">&quot;SourceLink&quot;</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span>
+    <span class="k">let</span> <span class="i">rawUrl</span> <span class="o">=</span> <span class="s">&quot;https://raw.githubusercontent.com/octokit/octokit.net&quot;</span>
+    <span class="k">use</span> <span class="i">repo</span> <span class="o">=</span> <span class="k">new</span> <span class="i">GitRepo</span>(<span class="k">__SOURCE_DIRECTORY__</span>)
+    [   <span class="s">&quot;Octokit/Octokit.csproj&quot;</span>
+        <span class="s">&quot;Octokit/Octokit-netcore45.csproj&quot;</span>
+        <span class="s">&quot;Octokit/Octokit-Portable.csproj&quot;</span>
+        <span class="s">&quot;Octokit.Reactive/Octokit.Reactive.csproj&quot;</span> ]
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">iter</span> (<span class="k">fun</span> <span class="i">pf</span> <span class="k">-&gt;</span>
+        <span class="k">let</span> <span class="i">proj</span> <span class="o">=</span> <span class="i">VsProj</span><span class="o">.</span><span class="i">LoadRelease</span> <span class="i">pf</span>
+        <span class="i">logfn</span> <span class="s">&quot;source linking %s&quot;</span> <span class="i">proj</span><span class="o">.</span><span class="i">OutputFilePdb</span>
+        <span class="k">let</span> <span class="i">files</span> <span class="o">=</span> (<span class="i">proj</span><span class="o">.</span><span class="i">Compiles</span> <span class="o">--</span> <span class="s">&quot;SolutionInfo.cs&quot;</span>)<span class="o">.</span><span class="i">SetBaseDirectory</span> <span class="k">__SOURCE_DIRECTORY__</span>
+        <span class="i">repo</span><span class="o">.</span><span class="i">VerifyChecksums</span> <span class="i">files</span>
+        <span class="i">proj</span><span class="o">.</span><span class="i">VerifyPdbChecksums</span> <span class="i">files</span>
+        <span class="i">proj</span><span class="o">.</span><span class="i">CreateSrcSrv</span> <span class="s">&quot;%s/{0}/%var2%&quot;</span> <span class="i">rawUrl</span> <span class="i">repo</span><span class="o">.</span><span class="i">Commit</span> (<span class="i">repo</span><span class="o">.</span><span class="i">Paths</span> <span class="i">files</span>)
+        <span class="i">Pdbstr</span><span class="o">.</span><span class="i">exec</span> <span class="i">proj</span><span class="o">.</span><span class="i">OutputFilePdb</span> <span class="i">proj</span><span class="o">.</span><span class="i">OutputFilePdbSrcSrv</span>
+    )
+)
+</pre>
+</td>
+</tr>
+</table>
+
+<h3><a name="pdbstr-exe-is-required" class="anchor" href="#pdbstr-exe-is-required">pdbstr.exe is required</a></h3>
+
+<p><code>pdbstr.exe</code> comes with Debugging Tools for Windows that is a part of the Windows 8.1 SDK. It is also included with the <code>SourceLink</code> NuGet package that contains <code>SourceLink.exe</code>. If you install <code>SourceLink</code> using Chocolatey, <code>SourceLink.Fake</code> will <a href="https://github.com/ctaggart/SourceLink/blob/master/SourceLink/Pdbstr.fs#L9-L10">find it</a>. An alternative is to add <code>SourceLink</code> as a depdencency in Paket <code>paket.dependencies</code> or a NuGet <code>packages.config</code> and locate the path using FAKE. The path can be passed in as the last argument to <code>Pdbstr.execWith</code>.</p>
+
+<h3><a name="Examples" class="anchor" href="#Examples">Examples</a></h3>
 
 <ul>
 <li>blog post <a href="http://blog.ctaggart.com/2014/01/source-link-to-codeplex.html">Source Link to CodePlex</a></li>
@@ -48,6 +92,8 @@
 <li>FSharp.Data <a href="https://github.com/fsharp/FSharp.Data/blob/master/build.fsx">build.fsx</a></li>
 </ul>
 
+<div class="tip" id="fs1">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs2">val iter : action:(&#39;T -&gt; unit) -&gt; source:seq&lt;&#39;T&gt; -&gt; unit<br /><br />Full name: Microsoft.FSharp.Collections.Seq.iter</div>
 
         </div>
         <div class="span3">
@@ -55,19 +101,19 @@
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">SourceLink</li>
             <li><a href="http://www.nuget.org/packages/SourceLink.Fake"><img src="http://img.shields.io/nuget/v/SourceLink.Fake.svg?style=flat" /></a></li>
-            <li><a href="./index.html">Home page</a></li>
-            <li><a href="./release-notes.html">Release Notes</a></li>
+            <li><a href="file://C:\Projects\SourceLink1\docs\tools\../output/index.html">Home page</a></li>
+            <li><a href="file://C:\Projects\SourceLink1\docs\tools\../output/release-notes.html">Release Notes</a></li>
             
             <li><a href="http://github.com/ctaggart/SourceLink">Source Code</a></li>
             <li><a href="http://github.com/ctaggart/SourceLink/issues">Report an Issue</a></li>
             <li><a href="http://blog.ctaggart.com/search/label/SourceLink">Blog Posts</a></li>
 
             <li class="nav-header">Documentation</li>
-              <li><a href="./how-it-works.html">how it works</a></li>
-            <li><a href="./visualstudio.html">enable Visual Studio</a></li>
-            <li><a href="./fake.html">with FAKE</a></li>
-            <li><a href="./tfs.html">with TFS</a></li>
-            <li><a href="./github.html">with GitHub</a></li>
+            <li><a href="file://C:\Projects\SourceLink1\docs\tools\../output/how-it-works.html">how it works</a></li>
+            <li><a href="file://C:\Projects\SourceLink1\docs\tools\../output/visualstudio.html">enable Visual Studio</a></li>
+            <li><a href="file://C:\Projects\SourceLink1\docs\tools\../output/exe.html">SourceLink.exe</a></li>
+            <li><a href="file://C:\Projects\SourceLink1\docs\tools\../output/fake.html">SourceLink.Fake</a></li>
+            <li><a href="file://C:\Projects\SourceLink1\docs\tools\../output/tfs.html">SourceLink.Tfs</a></li>
             
           </ul>
         </div>
