@@ -33,40 +33,26 @@
 
 <p>SourceLink has been used to source index Team Foundation Server (TFS) code in an on-premise TFS Git repository as well as <a href="http://www.visualstudio.com/">Visual Studio Online</a> (VSO). TFS 2013 <a href="http://stackoverflow.com/questions/24663813/is-source-indexing-for-git-builds-possible-in-tfs-2013">does not yet support</a> source indexing TFS Git code. SourceLink provides a solution for doing so. TFS Build does support source indexing for TFVC, but it requires tf.exe to be run each time a source file is needed. SourceLink uses <code>https</code> links for source indexing to obtain the source. This is more secure, faster, and easier to support than having to run an executable.</p>
 
-<p>TFS support builds on top of the FAKE support. <code>SoureLink.Fake</code> ships with a TFS build templates <a href="https://github.com/ctaggart/SourceLink/blob/master/Fake/TfsGit.xaml">TfsGit.xaml</a> and <a href="https://github.com/ctaggart/SourceLink/blob/master/Fake/VsoGit.xaml">VsoGit.xaml</a>. They simply delegate the work to FAKE, allowing you to <a href="http://blog.ctaggart.com/2014/01/code-your-tfs-builds-in-f-instead-of.html">code your TFS builds using FAKE instead of XAML</a>. <code>SourceLink.Tfs</code> provides easy access to the entire TFS API from your FAKE build scripts. F# Interactive can be used to connect to TFS and try things out.</p>
-
-<h3><a name="Examples-that-show-TODO" class="anchor" href="#Examples-that-show-TODO">Examples that show (TODO)</a></h3>
-
-<ul>
-<li>set the build number</li>
-<li>add a custom summary section</li>
-<li>integrate MSBuild logging</li>
-</ul>
-
-<h3><a name="Source-URLs" class="anchor" href="#Source-URLs">Source URLs</a></h3>
-
-<p>The URL to source index with can be derived from the download links in the web UI.</p>
+<p>Either SourceLink.exe or SourceLink.Fake can be used for source indexing with TFS. The URL to source index with can be derived from the download links in the web UI. In F# sprintf notation it looks like this:</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip">
 <span class="l">1: </span>
+<span class="l">2: </span>
 </pre>
 </td>
 <td class="snippet"><pre class="fssnip">
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="f">gitRaw</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s">/_api/_versioncontrol/itemContent?repositoryId=</span><span class="pf">%s</span><span class="s">&amp;path=/%%var2%%&amp;version=GC{0}&amp;contentOnly=false&amp;__v=5&quot;</span> <span class="i">repositoryId</span><span class="s">&quot; tfsTeamProject repositoryId</span>
+<span class="s">&quot;%s/_api/_versioncontrol/itemContent?repositoryId=%s&amp;path=/%%var2%%&amp;version=GC{0}&amp;contentOnly=false&amp;__v=5&quot;</span>
+<span class="i">tfsTeamProject</span> <span class="i">repositoryId</span>
 </pre>
 </td>
 </tr>
 </table>
 
-<h3><a name="Known-Issues" class="anchor" href="#Known-Issues">Known Issues</a></h3>
+<h1><a name="SourceLink-Tfs" class="anchor" href="#SourceLink-Tfs">SourceLink.Tfs</a></h1>
 
-<ul>
-<li><p><a href="https://github.com/ctaggart/SourceLink/issues/44">#44</a> find the TFS MsBuildLogger InformationNodeId</p>
-<p>Only important if you want integrated MSBuild logging to look perfect.</p></li>
-</ul>
+<p>SourceLink.Tfs is a library bundled with SourceLink.Fake that allows you to delegate some or all of a <a href="http://blogs.msdn.com/b/visualstudioalm/archive/2015/02/12/build-futures.aspx">XAML Build</a> to be in a FAKE Build instead.
+<code>SoureLink.Fake</code> ships with a TFS build templates <a href="https://github.com/ctaggart/SourceLink/blob/master/Fake/TfsGit.xaml">TfsGit.xaml</a> and <a href="https://github.com/ctaggart/SourceLink/blob/master/Fake/VsoGit.xaml">VsoGit.xaml</a>. They simply delegate the work to FAKE, allowing you to <a href="http://blog.ctaggart.com/2014/01/code-your-tfs-builds-in-f-instead-of.html">code your TFS builds using FAKE instead of XAML</a>. <code>SourceLink.Tfs</code> provides easy access to the entire TFS API from your FAKE build scripts. F# Interactive can be used to connect to TFS and try things out.</p>
 
-<div class="tip" id="fs1">val gitRaw : (string -&gt; string)<br /><br />Full name: tfs.gitRaw</div>
-<div class="tip" id="fs2">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.sprintf</div>
 
         </div>
         <div class="span3">
