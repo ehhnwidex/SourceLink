@@ -59,23 +59,23 @@
 </tr>
 </table>
 
-<p>With SourceLink.exe installed, simple run it to see the commands available:</p>
+<p>With SourceLink.exe installed, simply run it to see the commands available:</p>
 
-<p>[<img src="https://cloud.githubusercontent.com/assets/80104/6773015/2f6eda22-d0c7-11e4-8ffa-b92f2f1db099.png" alt="SourceLink.exe help" /></p>
+<p><img src="https://cloud.githubusercontent.com/assets/80104/6773015/2f6eda22-d0c7-11e4-8ffa-b92f2f1db099.png" alt="SourceLink.exe help" /></p>
 
-<h3><a name="Index" class="anchor" href="#Index">Index</a></h3>
+<h2><a name="Index" class="anchor" href="#Index">Index</a></h2>
 
-<p>The <code>index</code> command is the most important one. :) Typical usage looks like this:</p>
+<p>The <code>index</code> command is the most important one. Typical usage looks like this:</p>
 
-<p>[<img src="https://cloud.githubusercontent.com/assets/80104/6771122/f520d570-d092-11e4-9d53-d2430b7bb36c.png" alt="SourceLink.exe index LibGit2Sharp" /></p>
+<p><img src="https://cloud.githubusercontent.com/assets/80104/6771122/f520d570-d092-11e4-9d53-d2430b7bb36c.png" alt="SourceLink.exe index LibGit2Sharp" /></p>
 
 <p>You can see what each option is by pulling up the help for the command:</p>
 
-<p>[<img src="https://cloud.githubusercontent.com/assets/80104/6771131/5d520c90-d093-11e4-99e7-d3672d0f6e3d.png" alt="SourceLink.exe index LibGit2Sharp" /></p>
+<p><img src="https://cloud.githubusercontent.com/assets/80104/6771131/5d520c90-d093-11e4-99e7-d3672d0f6e3d.png" alt="SourceLink.exe index LibGit2Sharp" /></p>
 
 <p>The project file is used to get a list of source files and the pdb file to index. A couple of files are excluded from being indexed since they are modified at build time. The repository root is in the parent directory. SourceLink.exe then verifies that the checksums stored in the pdb file and calculated from the files in the working directory match the checksums stored in the Git repository. That way, when Visual Studio or other debuggers download the source code, the files will match.</p>
 
-<h3><a name="Checksums" class="anchor" href="#Checksums">Checksums</a></h3>
+<h2><a name="Checksums" class="anchor" href="#Checksums">Checksums</a></h2>
 
 <p>The <code>checksums</code> command can be used to print a list of all the index source files and their checksums.</p>
 
