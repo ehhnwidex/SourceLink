@@ -31,12 +31,27 @@
           
 <h1><a name="Enable-Source-Server-Support-in-Visual-Studio" class="anchor" href="#Enable-Source-Server-Support-in-Visual-Studio">Enable Source Server Support in Visual Studio</a></h1>
 
-<p>You just need to check the <code>Enable source server support</code> in Debugging &gt; Options and set the path for <code>Cache symbols in this directory</code>. The path is used to save source files too, not just pdb (symbol) files. They are cached in a subdirectory named <code>src</code>. No symbol (pdb) servers need to be enabled if the pdb files are distributed with the NuGet packages.</p>
+<p>You just need to check the <code>Enable source server support</code> in Debugging &gt; Options.</p>
 
 <p><img src="http://2.bp.blogspot.com/-v8A1ZnHodZI/U7y3o8gzuSI/AAAAAAAAOWg/LmW_k2KAk7E/s1600/Options.png" alt="Enable source server support" /></p>
 
+<p>You also need to set the path for <code>Cache symbols in this directory</code>. The path is used to save source files too, not just pdb (symbol) files. They are cached in a subdirectory named <code>src</code>. No symbol (pdb) servers need to be enabled if the pdb files are distributed with the NuGet packages.</p>
+
 <p><img src="http://1.bp.blogspot.com/-7LzFgBIPupc/U7y3xxow5qI/AAAAAAAAOWo/QD2cXv68p8I/s1600/Symbols.png" alt="Cache symbols in this directory" /></p>
 
+<p>While debugging, if you get a message like this:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">The</span> <span class="i">debug</span> <span class="i">source</span> <span class="i">files</span> <span class="i">settings</span> <span class="k">for</span> <span class="i">the</span> <span class="i">active</span> <span class="i">solution</span> <span class="i">indicate</span> <span class="i">that</span> <span class="i">the</span> <span class="i">debugger</span> <span class="i">will</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">not</span> <span class="i">ask</span> <span class="i">the</span> <span class="i">user</span> <span class="k">to</span> <span class="i">find</span> <span class="i">the</span> <span class="i">file</span><span class="o">:</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>it means you clicked cancel once before you it prompted you to find the source file. You need to clear this list of <code>Do not look at these source files</code> in the solution properties before trying again.
+<img src="https://cloud.githubusercontent.com/assets/80104/8489262/8a8fb33e-20ce-11e5-811a-67b94538664e.png" alt="" /></p>
+
+<div class="tip" id="fs1">val not : value:bool -&gt; bool<br /><br />Full name: Microsoft.FSharp.Core.Operators.not</div>
 
         </div>
         <div class="span3">
@@ -47,8 +62,7 @@
             <li><a href="./index.html">Home page</a></li>
             <li><a href="./release-notes.html">Release Notes</a></li>
             
-            <li><a href="http://github.com/ctaggart/SourceLink">Source Code</a></li>
-            <li><a href="http://github.com/ctaggart/SourceLink/issues">Report an Issue</a></li>
+            <li><a href="./support.html">Support</a></li>
             <li><a href="http://blog.ctaggart.com/search/label/SourceLink">Blog Posts</a></li>
 
             <li class="nav-header">Documentation</li>
