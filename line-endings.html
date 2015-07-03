@@ -31,21 +31,87 @@
           
 <h1><a name="Line-Endings" class="anchor" href="#Line-Endings">Line Endings</a></h1>
 
-<p>The checksums of the files that the compiler uses are stored in the <code>pdb</code>. Unfortunately, Git on Windows behaves like <code>core.autocrlf=true</code> by default. It will auto convert the line endings to <code>crlf</code> (carriage return, line feed) instead of leaving them just <code>lf</code> (line feed). They are stored in the Git repository as <code>lf</code> if you used a <code>.gitattributes</code> file which is recommended. Here are a some different ways to keep Git on Windows from auto converting line endings.</p>
+<p>The source files downloaded from the SCM such as GitHub must match exactly what was compiled. This includes the line endings. The checksums of the files that the compiler uses are stored in the <code>pdb</code>. Unfortunately, Git on Windows behaves like <code>core.autocrlf</code> is set to <code>true</code> by default. It will auto convert the line endings to <code>crlf</code> (carriage return, line feed) instead of leaving them just <code>lf</code> (line feed). They are stored in the Git repository as <code>lf</code> if you used a <code>.gitattributes</code> file which is recommended.</p>
 
-<ul>
-<li><p>configure git to use core.autocrlf input globally <em>before</em> cloning</p>
-<p><code>git config --global core.autocrlf input</code></p>
-<p>often done with AppVeyor in <code>init</code> section</p>
-<p>examples: <a href="https://github.com/octokit/octokit.net/blob/master/appveyor.yml#L2">octokit.net</a>, <a href="https://github.com/fsharp/FSharp.Data/blob/master/appveyor.yml#L2">FSharp.Data</a></p></li>
-<li><p>configure git to use core.autocrlf input <em>when</em> cloning</p>
-<p><code>git clone https://github.com/octokit/octokit.net.git -c core.autocrlf=input</code></p></li>
-<li><p>configure the source files to default to <code>lf</code> in <code>.gitattributes</code></p>
-<p><code>*.cs eol=lf</code></p>
-<p><code>*.fs eol=lf</code></p>
-<p>examples: <a href="https://github.com/fsharp/FSharp.Compiler.Service/blob/master/.gitattributes#L5">FSharp.Compiler.Service</a>, <a href="https://github.com/ctaggart/SourceLink/blob/master/.gitattributes#L5">SourceLink</a></p>
-<p>This just changes the default behavior. It can still be overridden using <code>core.autocrlf=true</code> if someone really wants <code>crlf</code>.</p></li>
-</ul>
+<p>See what your current settings are using <code>git config --get</code>:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">git</span> <span class="i">config</span> <span class="o">--</span><span class="i">get</span> <span class="i">core</span><span class="o">.</span><span class="i">autocrlf</span>
+<span class="i">git</span> <span class="i">config</span> <span class="o">--</span><span class="k">global</span> <span class="o">--</span><span class="i">get</span> <span class="i">core</span><span class="o">.</span><span class="i">autocrlf</span>
+<span class="i">git</span> <span class="i">config</span> <span class="o">--</span><span class="i">system</span> <span class="o">--</span><span class="i">get</span> <span class="i">core</span><span class="o">.</span><span class="i">autocrlf</span>
+<span class="i">git</span> <span class="i">config</span> <span class="o">--</span><span class="i">local</span> <span class="o">--</span><span class="i">get</span> <span class="i">core</span><span class="o">.</span><span class="i">autocrlf</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>The recommended way to prevent Git on Windows from auto converting line endings is to set <code>core.autocrlf</code> to <code>input</code>. It is easiest to do this <em>before</em> cloning.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">git</span> <span class="i">config</span> <span class="o">--</span><span class="k">global</span> <span class="i">core</span><span class="o">.</span><span class="i">autocrlf</span> <span class="i">input</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>That is the setting that we use for F# ProjectScaffold <a href="https://github.com/fsprojects/ProjectScaffold/blob/master/appveyor.yml#L2">in appveyor.yml</a>.</p>
+
+<p>These settings may be unset:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">git</span> <span class="i">config</span> <span class="o">--</span><span class="k">global</span> <span class="o">--</span><span class="i">unset</span> <span class="i">core</span><span class="o">.</span><span class="i">autocrlf</span>
+<span class="i">git</span> <span class="i">config</span> <span class="o">--</span><span class="i">system</span> <span class="o">--</span><span class="i">unset</span> <span class="i">core</span><span class="o">.</span><span class="i">autocrlf</span>
+<span class="i">git</span> <span class="i">config</span> <span class="o">--</span><span class="i">local</span> <span class="o">--</span><span class="i">unset</span> <span class="i">core</span><span class="o">.</span><span class="i">autocrlf</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>Another way to configure git to use core.autocrlf input <em>when</em> cloning. For example:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">git</span> <span class="i">clone</span> <span class="i">https</span><span class="o">:</span><span class="c">//github.com/octokit/octokit.net.git -c core.autocrlf=input</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>If you agree that carriage returns are obsolete, you can configure the source files to <em>default</em> to <code>lf</code> in <code>.gitattributes</code>. The user is still able to override the setting by having a <code>core.autocrlf</code> set.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">*.</span><span class="i">cs</span> <span class="i">eol</span><span class="o">=</span><span class="i">lf</span>
+<span class="o">*.</span><span class="i">fs</span> <span class="i">eol</span><span class="o">=</span><span class="i">lf</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>If you are unable to control the line endings using Git settings, SourceLink.exe 1.0 added a <code>linefeed</code> command that detects <code>crlf</code> line endings and turns them into <code>lf</code> for any compiled source files.</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/80104/8490596/702f2bfc-20e0-11e5-8035-f3aef072f66a.png" alt="" /></p>
+
+<p>For <a href="https://github.com/Microsoft/visualfsharp/issues/294#issuecomment-117922233">example</a>:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">SourceLink</span><span class="o">.</span><span class="i">exe</span> <span class="i">linefeed</span> <span class="o">-</span><span class="i">pr</span> <span class="o">.</span>
+#<span class="i">run</span> <span class="i">build</span> <span class="i">here</span>
+<span class="i">SourceLink</span><span class="o">.</span><span class="i">exe</span> <span class="i">index</span> <span class="o">-</span><span class="i">pr</span> <span class="o">.</span>
+<span class="o">-</span><span class="i">pp</span> <span class="i">Configuration</span> <span class="i">Release</span> <span class="k">`</span>
+<span class="o">-</span><span class="i">u</span> <span class="o">&#39;</span><span class="i">https</span><span class="o">:</span><span class="c">//raw.githubusercontent.com/Microsoft/visualfsharp/{0}/%var2%&#39;</span>
+</code></pre></td>
+</tr>
+</table>
 
 
         </div>
@@ -63,7 +129,6 @@
 
             <li class="nav-header">Documentation</li>
             <li><a href="./how-it-works.html">how it works</a></li>
-            <li><a href="./line-endings.html">line endings</a></li>
             <li><a href="./visualstudio.html">enable Visual Studio</a></li>
             <li><a href="./exe.html">SourceLink.exe</a></li>
             <li><a href="./fake.html">SourceLink.Fake</a></li>
