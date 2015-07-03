@@ -31,15 +31,22 @@
           
 <h1><a name="Integrate-with-GitHub" class="anchor" href="#Integrate-with-GitHub">Integrate with GitHub</a></h1>
 
-<p>SourceLink is used to source index many open source projects on GitHub. Support <a href="https://github.com/ctaggart/SourceLink/issues/48">for private repositories</a> is being worked on.</p>
+<p>SourceLink is used to source index many open source projects on GitHub. The <code>--url</code> to use when indexing should use <code>raw.githubusercontent.com</code>. It <a href="https://developer.github.com/changes/2014-04-25-user-content-security/">was changed</a> from <code>raw.github.com</code> in April 2014, but the old URLs will still work with the redirects in place. Here are some example <code>--url</code> arguments:</p>
 
-<p>SourceLink is being used with:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">&#39;</span><span class="i">https</span><span class="o">:</span><span class="c">//raw.githubusercontent.com/ctaggart/SourceLink/{0}/%var2%&#39;</span>
+<span class="o">&#39;</span><span class="i">https</span><span class="o">:</span><span class="c">//raw.githubusercontent.com/octokit/octokit.net/{0}/%var2%&#39;</span>
+<span class="o">&#39;</span><span class="i">https</span><span class="o">:</span><span class="c">//raw.githubusercontent.com/Microsoft/visualfsharp/{0}/%var2%&#39;</span>
+</code></pre></td>
+</tr>
+</table>
 
-<ul>
-<li>.NET Open Source on GitHub</li>
-<li>TFS 2013 On-Premise</li>
-<li>GitHub private respositories soon I hope <a href="https://github.com/ctaggart/SourceLink/issues/48">#48</a></li>
-</ul>
+<h1><a name="Private-repositories" class="anchor" href="#Private-repositories">Private repositories</a></h1>
+
+<p>Support for private repositories was added for SourceLink 1.0. Documentation coming...</p>
 
 
         </div>
@@ -55,13 +62,13 @@
             <li><a href="http://blog.ctaggart.com/search/label/SourceLink">Blog Posts</a></li>
 
             <li class="nav-header">Documentation</li>
-            <li><a href="./how-it-works.html">how it works</a></li>
-            <li><a href="./line-endings.html">line endings</a></li>
-            <li><a href="./visualstudio.html">enable Visual Studio</a></li>
+            <li><a href="./line-endings.html">Line Endings</a></li>
             <li><a href="./exe.html">SourceLink.exe</a></li>
-            <li><a href="./fake.html">SourceLink.Fake</a></li>
-            <li><a href="./tfs.html">SourceLink.Tfs</a></li>
-            
+            <li><a href="./fake.html">FAKE</a></li>
+            <li><a href="./how-it-works.html">How it Works</a></li>
+            <li><a href="./visualstudio.html">Visual Studio</a></li>
+            <li><a href="./github.html">GitHub</a></li>
+            <li><a href="./tfs.html">TFS</a></li>
           </ul>
         </div>
       </div>
