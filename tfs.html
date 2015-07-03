@@ -35,16 +35,12 @@
 
 <p>Either <code>SourceLink.exe</code> or <code>SourceLink.Fake</code> can be used for source indexing with TFS. The URL to source index with can be derived from the download links in the web UI. In F# sprintf notation it looks like this:</p>
 
-<table class="pre"><tr><td class="lines"><pre class="fssnip">
-<span class="l">1: </span>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
-</pre>
-</td>
-<td class="snippet"><pre class="fssnip">
-<span class="s">&quot;%s/_api/_versioncontrol/itemContent?repositoryId=%s&amp;path=/%%var2%%&amp;version=GC{0}&amp;contentOnly=false&amp;__v=5&quot;</span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;%s/_api/_versioncontrol/itemContent?repositoryId=%s&amp;path=/%%var2%%&amp;version=GC{0}&amp;contentOnly=false&amp;__v=5&quot;</span>
 <span class="i">tfsTeamProject</span> <span class="i">repositoryId</span>
-</pre>
-</td>
+</code></pre></td>
 </tr>
 </table>
 
