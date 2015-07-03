@@ -31,17 +31,56 @@
           
 <h1><a name="SourceLink-Source-Code-On-Demand" class="anchor" href="#SourceLink-Source-Code-On-Demand">SourceLink: Source Code On Demand</a></h1>
 
-<p>SourceLink allows you to download on demand the exact version of the source files that were used to build the library or application when debugging from Visual Studio or another Windows debugger. The debuggers use <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff558791.aspx">srcsrv.dll</a> to retrieve the source code. "Because the source code for a module can change between versions and over the course of years, it is important to look at the source code as it existed when the version of the module in question was built." SourceLink enables the source control management (SCM) system to be the <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms680641.aspx">source server</a> by indexing the <code>pdb</code> files with <code>https</code> links to the SCM. Access to the source code is controlled by the SCM.</p>
+<p>SourceLink allows library users to download on demand the exact version of the source files that were used to build the library or application while debugging from Visual Studio or another Windows debugger. The debuggers use <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff558791.aspx">srcsrv.dll</a> to retrieve the source code. "Because the source code for a module can change between versions and over the course of years, it is important to look at the source code as it existed when the version of the module in question was built." SourceLink enables the source control management (SCM) system to be the <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms680641.aspx">source server</a> by indexing the <code>pdb</code> files with <code>https</code> links to the SCM. Access to the source code is controlled by the SCM.</p>
+
+<h3><a name="For-Library-Authors" class="anchor" href="#For-Library-Authors">For Library Authors</a></h3>
+
+<p>Install <a href="https://chocolatey.org/packages/SourceLink">SourceLink.exe</a> via chocolatey.</p>
+
+<p>choco install SourceLink --version 1.0.0</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/80104/8490526/75457d5e-20df-11e5-90db-1e7da20e1991.png" alt="" /></p>
+
+<p>You can see a list of available commands simply by running <code>SourceLink.exe</code>.</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/80104/8490543/c9c598a0-20df-11e5-997a-bafc4dc54499.png" alt="" /></p>
+
+<p>The <code>index</code> command is the one that will create the index and put it in the pdb file.</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/80104/8490561/f873cee2-20df-11e5-95ee-b64d96418c93.png" alt="" /></p>
+
+<p>An example is <a href="https://github.com/Microsoft/visualfsharp/issues/294#issuecomment-117922233">source indexing FSharp.Core.pdb</a>:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">SourceLink</span><span class="o">.</span><span class="i">exe</span> <span class="i">index</span> <span class="k">`</span>
+<span class="o">-</span><span class="i">pr</span> <span class="o">.</span>
+<span class="o">-</span><span class="i">pp</span> <span class="i">Configuration</span> <span class="i">Release</span> <span class="k">`</span>
+<span class="o">-</span><span class="i">u</span> <span class="o">&#39;</span><span class="i">https</span><span class="o">:</span><span class="c">//raw.githubusercontent.com/Microsoft/visualfsharp/{0}/%var2%&#39;</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>The pdb files can be distributed with the NuGet library, with your web app, app, or put in a symbol server. Ideally, all open source NuGet libraries in the NuGet Gallery would contain source indexed pdb files.</p>
+
+<h3><a name="For-Library-Users" class="anchor" href="#For-Library-Users">For Library Users</a></h3>
+
+<p>You need to <a href="visualstudio.html">enable source server support in Visual Studio</a> or other app.</p>
 
 <h3><a name="Demo-Source-Code-Downloads-when-Debugging" class="anchor" href="#Demo-Source-Code-Downloads-when-Debugging">Demo: Source Code Downloads when Debugging</a></h3>
 
-<p>When you NuGet package includes the source indexed <code>pdb</code> files, users of the libraries can step directly into the source code using Visual Studio.</p>
+<p>When the libraries are source indexed, you can step directly into the source code. It is downloaded on demand.</p>
 
 <iframe width="700" height="450" src="https://www.youtube.com/embed/k_jeSP_rMp8?rel=0" frameborder="0" allowfullscreen></iframe>
 
 <h3><a name="Demo-Go-To-Source-during-Design-Time" class="anchor" href="#Demo-Go-To-Source-during-Design-Time">Demo: Go To Source during Design Time</a></h3>
 
-<p>Visual F# Power Tools 1.8 beta uses the source indexed pdb files to get the source code during design time. In the case of GitHub, it opens your browser to the exact line.</p>
+<p>Visual F# Power Tools 1.8 added <a href="http://fsprojects.github.io/VisualFSharpPowerTools/navigatetosource.html">Navigate to Source</a> so that you can hit F12 and view the source code during design time! It uses source indexed pdb files with <a href="https://www.nuget.org/packages/SourceLink.SymbolStore/">SourceLink.SymbolStore</a>.</p>
+
+<p><a href="https://twitter.com/ploeh/status/614328824969490432"><img src="https://cloud.githubusercontent.com/assets/80104/8491836/cb10f2da-20f4-11e5-8def-b53eb5b1a3c8.png" alt="" /></a></p>
 
 <iframe title="YouTube video player" width="700" height="450" src="https://www.youtube.com/embed/5n3TUqMiysk?rel=0" frameborder="0" allowfullscreen></iframe>
 
