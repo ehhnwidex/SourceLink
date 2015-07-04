@@ -31,7 +31,19 @@
           
 <h1><a name="How-SourceLink-Works" class="anchor" href="#How-SourceLink-Works">How SourceLink Works</a></h1>
 
-<p>A <code>dll</code> and <code>pdb</code> are created by a compiler. SourceLink is used to create a text file (<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms680641.aspx">specification</a>) that links source files to their raw download URLs. The <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff558874.aspx">pdbstr.exe</a> is used to save the file to a stream in the <code>pdb</code>. The NuGet package for <code>SourceLink.exe</code> includes <code>pdbstr.exe</code>. Windows debuggers use <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff558791.aspx">srcsrv.dll</a> to download the source files on demand. An <code>md5</code> checksum stored in the <code>pdb</code> by the compiler must match the <code>md5</code> checksum of the file that is downloaded.</p>
+<p>A <code>dll</code> and <code>pdb</code> are created by a compiler. SourceLink is used to create a text file (<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms680641.aspx">specification</a>) that links source files to their raw download URLs. The <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff558874.aspx">pdbstr.exe</a> is used to save the file to a stream in the <code>pdb</code>. The NuGet package for <code>SourceLink.exe</code> includes <code>pdbstr.exe</code>. Windows debuggers use <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff558791.aspx">srcsrv.dll</a> to download the source files on demand. An <code>md5</code> checksum stored in the <code>pdb</code> by the compiler must match the <code>md5</code> checksum of the file that is downloaded. This is why <a href="line-endings.html">line endings</a> are important.</p>
+
+<h2><a name="Symbol-Server-vs-Source-Server" class="anchor" href="#Symbol-Server-vs-Source-Server">Symbol Server vs Source Server</a></h2>
+
+<p>A symbol server serves .pdb files. A source server serves source files such as .cs and .fs files.</p>
+
+<h3><a name="Symbol-Server-TODO" class="anchor" href="#Symbol-Server-TODO">Symbol Server (TODO)</a></h3>
+
+<p>Kinds: next to dll, local, network share, http</p>
+
+<h3><a name="Source-Server-TODO" class="anchor" href="#Source-Server-TODO">Source Server (TODO)</a></h3>
+
+<p>What the debugger does, looks up a symbol, determines the file, determines the url to download the file</p>
 
 
         </div>
