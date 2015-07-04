@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Integrate with GitHub
+    <title>Source Index to GitHub
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="A summary."/>
@@ -29,7 +29,7 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1><a name="Integrate-with-GitHub" class="anchor" href="#Integrate-with-GitHub">Integrate with GitHub</a></h1>
+<h1><a name="Source-Index-to-GitHub" class="anchor" href="#Source-Index-to-GitHub">Source Index to GitHub</a></h1>
 
 <p>SourceLink is used to source index many open source projects on GitHub. The <code>--url</code> to use when indexing should use <code>raw.githubusercontent.com</code>. It <a href="https://developer.github.com/changes/2014-04-25-user-content-security/">was changed</a> from <code>raw.github.com</code> in April 2014, but the old URLs will still work with the redirects in place. Here are some example <code>--url</code> arguments:</p>
 
@@ -44,9 +44,57 @@
 </tr>
 </table>
 
-<h1><a name="Private-repositories" class="anchor" href="#Private-repositories">Private repositories</a></h1>
+<h2><a name="Private-repositories" class="anchor" href="#Private-repositories">Private repositories</a></h2>
 
-<p>Support for private repositories was added for SourceLink 1.0. Documentation coming...</p>
+<p>Support for private repositories was added for SourceLink 1.0. Unfortunately, GitHub returns an HTTP 404 Not Found instead of the normal HTTP 401 Unauthorized  when authentication is required. To fix this, I created a very simple <a href="https://github.com/ctaggart/SourceLink-Proxy/blob/master/server.ts">60-line</a> web service Node.js app in TypeScript. It even comes with Application Insights. It may be cloned and deployed to your server. I have an instance of it hosted on a small Azure App Service plan.</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/80104/8506354/a4e8fa6e-21c4-11e5-9f13-5ee8abbd9d64.png" alt="" /></p>
+
+<p>It is on a $56/mo plan that my Microsoft .NET MVP covers. :)</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/80104/8506413/9a9dd964-21c7-11e5-9346-c94110cb1ddd.png" alt="" /></p>
+
+<p>My hope is that AppVeyor and other companies will add this as a Source Service similar to AppVeyor's awesome <a href="http://www.appveyor.com/docs/nuget">NuGet Service</a>. My company would gladly pay a bit extra for this instead of hosting it ourselves.</p>
+
+<p>To source index with the proxy, just change the url to be:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">&#39;</span><span class="i">https</span><span class="o">:</span><span class="c">//sourcelink.azurewebsites.net/Company/PrivateRepo/{0}/%var2%&#39;</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>However, I recommend that you create a DNS CNAME for indexing your private code in case you wish to change the source server and host your own. You can name the subdomain anything you wish.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">&#39;</span><span class="i">https</span><span class="o">:</span><span class="c">//raw.company.com/Company/PrivateRepo/{0}/%var2%&#39;</span>
+</code></pre></td>
+</tr>
+</table>
+
+<h3><a name="Check-the-pdb-files" class="anchor" href="#Check-the-pdb-files">Check the pdb files</a></h3>
+
+<p>You may verify that the pdb files are source indexed and you are able to download the source files using <code>SourceLink.exe</code>. Version 1.0 added authentication for <code>checksums --check</code>.</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/80104/8490571/17833b10-20e0-11e5-85ac-ccd99907baf0.png" alt="" /></p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">SourceLink</span><span class="o">.</span><span class="i">exe</span> <span class="i">checksums</span> <span class="o">--</span><span class="i">pdb</span> <span class="i">bin</span><span class="o">/</span><span class="i">Your</span><span class="o">.</span><span class="i">pdb</span> <span class="o">--</span><span class="i">check</span> <span class="o">--</span><span class="i">username</span> <span class="i">ctaggart</span> <span class="o">--</span><span class="i">password</span> <span class="i">n0tr3al</span>
+</code></pre></td>
+</tr>
+</table>
+
+<p>If hou have GitHub <a href="https://help.github.com/articles/about-two-factor-authentication/">Two-Factor Authentication</a> enabled, just use a <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/">personal access token</a> for <code>--username</code>:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">SourceLink</span><span class="o">.</span><span class="i">exe</span> <span class="i">checksums</span> <span class="o">--</span><span class="i">pdb</span> <span class="i">bin</span><span class="o">/</span><span class="i">Your</span><span class="o">.</span><span class="i">pdb</span> <span class="o">--</span><span class="i">check</span> <span class="o">--</span><span class="i">username</span> <span class="n">6d2e65d6bdaeb91249a024e9201d845b5ef0beb3</span>
+</code></pre></td>
+</tr>
+</table>
 
 
         </div>
