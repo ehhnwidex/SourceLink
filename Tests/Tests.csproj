@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dotnet-sourcelink\SourceLink.csproj" />
+    <ProjectReference Include="..\SourceLink\SourceLink.csproj" />
     <ProjectReference Include="..\SourceLink.Create.CommandLine\SourceLink.Create.CommandLine.csproj" />
   </ItemGroup>
 
