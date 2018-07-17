@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sourcelink", "dotnet-sourcelink\sourcelink.csproj", "{68D40DAC-77EF-426A-979D-1CC4723CB2A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceLink", "dotnet-sourcelink\SourceLink.csproj", "{68D40DAC-77EF-426A-979D-1CC4723CB2A1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{13B28F5D-43CA-4243-A932-3352BB788216}"
 EndProject
@@ -19,18 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceLink.Test", "SourceLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceLink.Create.CommandLine", "SourceLink.Create.CommandLine\SourceLink.Create.CommandLine.csproj", "{FB0D8C0B-27DF-4D20-9F15-09794D95F744}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "dotnet-sourcelink-shared", "dotnet-sourcelink-shared\dotnet-sourcelink-shared.shproj", "{FD0C81CE-4FAE-47CE-B89A-20F1DB6DAD0A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dotnet", "dotnet", "{2402E19F-C4A4-43A4-B939-F5CD198EEED3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceLink", "SourceLink", "{07737978-28A8-42A2-A240-A66EF5EC4C5E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Create", "Create", "{F157756B-2442-4131-848B-CBEF39E8F706}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SourceLink.Core", "SourceLink.Core\SourceLink.Core.fsproj", "{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		dotnet-sourcelink-shared\dotnet-sourcelink-shared.projitems*{fd0c81ce-4fae-47ce-b89a-20f1db6dad0a}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -88,6 +85,18 @@ Global
 		{FB0D8C0B-27DF-4D20-9F15-09794D95F744}.Release|x64.Build.0 = Release|Any CPU
 		{FB0D8C0B-27DF-4D20-9F15-09794D95F744}.Release|x86.ActiveCfg = Release|Any CPU
 		{FB0D8C0B-27DF-4D20-9F15-09794D95F744}.Release|x86.Build.0 = Release|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Debug|x64.Build.0 = Debug|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Debug|x86.Build.0 = Debug|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Release|x64.ActiveCfg = Release|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Release|x64.Build.0 = Release|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Release|x86.ActiveCfg = Release|Any CPU
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,8 +104,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{68D40DAC-77EF-426A-979D-1CC4723CB2A1} = {2402E19F-C4A4-43A4-B939-F5CD198EEED3}
 		{FB0D8C0B-27DF-4D20-9F15-09794D95F744} = {F157756B-2442-4131-848B-CBEF39E8F706}
-		{FD0C81CE-4FAE-47CE-B89A-20F1DB6DAD0A} = {2402E19F-C4A4-43A4-B939-F5CD198EEED3}
 		{F157756B-2442-4131-848B-CBEF39E8F706} = {07737978-28A8-42A2-A240-A66EF5EC4C5E}
+		{4C71A347-CCFE-4B4F-A6D6-15BDDBE4B5DE} = {2402E19F-C4A4-43A4-B939-F5CD198EEED3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7623516C-0410-449C-9EFC-84B884102D70}
