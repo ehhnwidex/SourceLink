@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../build/common.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
     <!-- https://github.com/NuGet/Home/wiki/Adding-nuget-pack-as-a-msbuild-target -->
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
@@ -28,18 +28,18 @@
       <PackagePath>build</PackagePath>
     </Content>
 
-    <Content Include="$(OutputPath)netstandard1.4/SourceLink.Create.BitBucketServer.dll">
+    <Content Include="$(OutputPath)netstandard2.0/SourceLink.Create.BitBucketServer.dll">
       <Pack>true</Pack>
-      <PackagePath>build/netstandard1.4</PackagePath>
+      <PackagePath>build/netstandard2.0</PackagePath>
     </Content>
-    <Content Include="$(OutputPath)netstandard1.4/SourceLink.Create.BitBucketServer.deps.json">
+    <Content Include="$(OutputPath)netstandard2.0/SourceLink.Create.BitBucketServer.deps.json">
       <Pack>true</Pack>
-      <PackagePath>build/netstandard1.4</PackagePath>
+      <PackagePath>build/netstandard2.0</PackagePath>
     </Content>
 
-    <Content Include="$(OutputPath)net461/SourceLink.Create.BitBucketServer.dll">
+    <Content Include="$(OutputPath)net472/SourceLink.Create.BitBucketServer.dll">
       <Pack>true</Pack>
-      <PackagePath>build/net461</PackagePath>
+      <PackagePath>build/net472</PackagePath>
     </Content>
   </ItemGroup>
   <Import Project="..\SourceLink.Create.Shared\SourceLink.Create.Shared.projitems" Label="Shared" />
