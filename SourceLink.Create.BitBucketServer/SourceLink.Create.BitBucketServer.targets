@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
-    <SourceLinkCreateBitBucketServerDll Condition="'$(MSBuildRuntimeType)' == 'Core'">netstandard1.4\SourceLink.Create.BitBucketServer.dll</SourceLinkCreateBitBucketServerDll>
-    <SourceLinkCreateBitBucketServerDll Condition="'$(MSBuildRuntimeType)' != 'Core'">net461\SourceLink.Create.BitBucketServer.dll</SourceLinkCreateBitBucketServerDll>
+    <SourceLinkCreateBitBucketServerDll Condition="'$(MSBuildRuntimeType)' == 'Core'">netstandard2.0\SourceLink.Create.BitBucketServer.dll</SourceLinkCreateBitBucketServerDll>
+    <SourceLinkCreateBitBucketServerDll Condition="'$(MSBuildRuntimeType)' != 'Core'">net472\SourceLink.Create.BitBucketServer.dll</SourceLinkCreateBitBucketServerDll>
   </PropertyGroup>
   <UsingTask TaskName="SourceLink.Create.BitBucketServer.CreateTask" AssemblyFile="$(SourceLinkCreateBitBucketServerDll)" />
 

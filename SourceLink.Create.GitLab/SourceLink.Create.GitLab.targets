@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
-    <SourceLinkCreateGitLabDll Condition="'$(MSBuildRuntimeType)' == 'Core'">netstandard1.4\SourceLink.Create.GitLab.dll</SourceLinkCreateGitLabDll>
-    <SourceLinkCreateGitLabDll Condition="'$(MSBuildRuntimeType)' != 'Core'">net461\SourceLink.Create.GitLab.dll</SourceLinkCreateGitLabDll>
+    <SourceLinkCreateGitLabDll Condition="'$(MSBuildRuntimeType)' == 'Core'">netstandard2.0\SourceLink.Create.GitLab.dll</SourceLinkCreateGitLabDll>
+    <SourceLinkCreateGitLabDll Condition="'$(MSBuildRuntimeType)' != 'Core'">net472\SourceLink.Create.GitLab.dll</SourceLinkCreateGitLabDll>
   </PropertyGroup>
   <UsingTask TaskName="SourceLink.Create.GitLab.CreateTask" AssemblyFile="$(SourceLinkCreateGitLabDll)" />
 
